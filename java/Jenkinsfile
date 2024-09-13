@@ -4,13 +4,29 @@ pipeline {
 
     parameters {
         string(name: 'GIT_REPO_URL', defaultValue: 'https://github.com/ItsJor/sw_r_assist.git', description: 'Repository link for build - java')
+        string(name: 'GIT_BUILD_BRANCH', defaultValue: 'main', description: 'Branch for the build')
     }
 
     stages {
+        stage('Workspace clean') {
+            steps {
+                cleanWs()
+            }
+        }
         stage('Clone repository') {
             steps {
-                echo 'Testing'
+                echo 'Cloning repository from: ' + params.GIT_REPO_URL
+                echo 'Cloning on branch: ' + params.GIT_BUILD_BRANCH
+                git(url: params.GIT_REPO_URL, branch: params.GIT_BUILD_BRANCH)
             }
+        }
+        
+    }
+
+    post {
+        always {
+            echo 'Cleaning workspace'
+            cleanWs()
         }
     }
 

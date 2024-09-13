@@ -18,6 +18,10 @@
 - Use SSH_KEY for credential id if no code changes needed
 - Username will be git
 - Private key is the content of the cat command
-
+- Error: Using 'Known hosts file' strategy to verify ssh host keys, but your known_hosts file does not exist
+    - SSH into jenkins server
+    - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+    - Verify: cat ~/.ssh/known_hosts
+    
 ##
 

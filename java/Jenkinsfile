@@ -8,11 +8,7 @@ pipeline {
     }
 
     stages {
-        stage('Workspace clean') {
-            steps {
-                cleanWs()
-            }
-        }
+
         stage('Clone repository') {
             steps {
                 echo 'Cloning repository from: ' + params.GIT_REPO_URL

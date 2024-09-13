@@ -3,7 +3,7 @@ pipeline {
     agent any
 
     stages {
-        stage('Initial test') {
+        stage('Clone repository') {
             steps {
                 echo 'Testing'
             }

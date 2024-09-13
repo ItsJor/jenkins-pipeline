@@ -2,6 +2,10 @@ pipeline {
 
     agent any
 
+    parameters {
+        string(name: 'GIT_REPO_URL', defaultValue: 'https://github.com/ItsJor/sw_r_assist.git', description: 'Repository link for build - java')
+    }
+
     stages {
         stage('Clone repository') {
             steps {

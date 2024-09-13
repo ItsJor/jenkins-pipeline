@@ -14,5 +14,10 @@
 
     2. Add the ssh key to github \
         `Github -> Settings -> SSH and GPG keys -> New SSH key`
-- Store the keys in Jenkins credentials
+- Store the keys in Jenkins credentials as "SSH Username with private key"
+- Use SSH_KEY for credential id if no code changes needed
+- Username will be git
+- Private key is the content of the cat command
+
+##
 

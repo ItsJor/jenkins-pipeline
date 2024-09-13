@@ -17,7 +17,7 @@ pipeline {
             steps {
                 echo 'Cloning repository from: ' + params.GIT_REPO_URL
                 echo 'Cloning on branch: ' + params.GIT_BUILD_BRANCH
-                git(url: params.GIT_REPO_URL, branch: params.GIT_BUILD_BRANCH)
+                git(url: params.GIT_REPO_URL, branch: params.GIT_BUILD_BRANCH, credentialsId: 'SSH-KEY')
             }
         }
         

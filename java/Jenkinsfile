@@ -13,18 +13,18 @@ pipeline {
             steps {
                 echo 'Cloning repository from: ' + params.GIT_REPO_URL
                 echo 'Cloning on branch: ' + params.GIT_BUILD_BRANCH
-                // git(url: params.GIT_REPO_URL, branch: params.GIT_BUILD_BRANCH, credentialsId: 'SSH_KEY')
-                checkout([
-                    $class: 'GitSCM',
-                    branches: [[name: "*/${params.GIT_BUILD_BRANCH}"]],
-                    doGenerateSubmoduleConfigurations: false,
-                    extensions: [],
-                    submoduleCfg: [],
-                    userRemoteConfigs: [[
-                        credentialsId: 'SSH_KEY',
-                        url: params.GIT_REPO_URL
-                    ]]
-                ])
+                git(url: params.GIT_REPO_URL, branch: params.GIT_BUILD_BRANCH, credentialsId: 'github_pat')
+                // checkout([
+                //     $class: 'GitSCM',
+                //     branches: [[name: "*/${params.GIT_BUILD_BRANCH}"]],
+                //     doGenerateSubmoduleConfigurations: false,
+                //     extensions: [],
+                //     submoduleCfg: [],
+                //     userRemoteConfigs: [[
+                //         credentialsId: 'SSH_KEY',
+                //         url: params.GIT_REPO_URL
+                //     ]]
+                // ])
             }
         }
         

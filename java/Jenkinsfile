@@ -9,7 +9,7 @@ pipeline {
     }
 
     environment {
-        SPRING_BOOT_ACTIVE = params.BUILD_ENVIRONMENT
+        SPRING_BOOT_ACTIVE = "$params.BUILD_ENVIRONMENT"
     }
 
     stages {

@@ -41,7 +41,7 @@ pipeline {
             steps {
                 withCredentials([file(credentialsId: 'API_PEM', variable: 'PEM_FILE')]) {
                     sh """
-                        ssh -i ${PEM_FILE} ec2-user@{API_INSTANCE_LOCATION} 'bash /home/ec2-user/update_and_run.sh'
+                        ssh -i ${PEM_FILE} ec2-user@${API_INSTANCE_LOCATION} 'bash /home/ec2-user/update_and_run.sh'
                     """
                 }
             }

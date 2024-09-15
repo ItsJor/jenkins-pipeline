@@ -32,7 +32,7 @@ pipeline {
         }
         stage('Push artifact to api instance') {
             steps {
-                sh 'scp -i /target/sampleApi-0.0.1-SNAPSHOT.jar ec2-user@${API_INSTANCE_LOCATION}'
+                sh 'scp /target/sampleApi-0.0.1-SNAPSHOT.jar ec2-user@${API_INSTANCE_LOCATION}'
             }
         }
         

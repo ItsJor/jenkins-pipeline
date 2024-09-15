@@ -62,13 +62,7 @@ pipeline {
         stage('Update and run on instance') {
             steps {
                 withCredentials([file(credentialsId: 'API_PEM', variable: 'PEM_FILE')]) {
-                    // sh 'ssh -i ${PEM_FILE} ec2-user@${API_INSTANCE_LOCATION} "cd /home/ec2-user && bash update_and_run.sh"'
-                    sh """
-                        ssh -i ${PEM_FILE} ec2-user@${API_INSTANCE_LOCATION} << EOF
-                            cd /home/ec2-user
-                            bash update_and_run.sh
-                        EOF
-                    """
+                    sh 'ssh -i ${PEM_FILE} ec2-user@${API_INSTANCE_LOCATION} "cd /home/ec2-user && bash update_and_run.sh"'
                 }
             }
         }

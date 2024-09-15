@@ -30,15 +30,19 @@ pipeline {
                 sh './mvnw clean install -DskipTests=true'
             }
         }
-        stage('Pause') {
-            steps {
-                input('message')
-            }
-        }
         stage('Push artifact to api instance') {
             steps {
                 withCredentials([file(credentialsId: 'API_PEM', variable: 'PEM_FILE')]) {                 
                     sh 'scp -v -o StrictHostKeyChecking=no -i ${PEM_FILE} ${WORKSPACE}/target/sampleApi-0.0.1-SNAPSHOT.jar ec2-user@${API_INSTANCE_LOCATION}'
+                }
+            }
+        }
+        stage('Update and run on instance') {
+            steps {
+                withCredentials([file(credentialsId: 'API_PEM', variable: 'PEM_FILE')]) {
+                    sh """
+                        ssh -i ${PEM_FILE} ec2-user@{API_INSTANCE_LOCATION} 'bash /home/ec2-user/update_and_run.sh'
+                    """
                 }
             }
         }

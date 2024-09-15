@@ -1,3 +1,5 @@
+@Library('JENKINS_SHARED_LIBRARY')
+
 pipeline {
 
     agent any
@@ -17,9 +19,14 @@ pipeline {
     }
 
     stages {
-        stage('Checkout scm') {
+        stage('Testing shared library') {
+            def script = libraryResource 'java/update_and_run.sh'
+            writeFile(file: 'deploy_test.sh', text: script)
+            sh 'cat deploy_test.sh'
+        }
+        stage('Pause for debug') {
             steps {
-                checkout scm
+                input("pause")
             }
         }
         stage('Clone repository') {
@@ -27,11 +34,6 @@ pipeline {
                 echo 'Cloning repository from: ' + params.GIT_REPO_URL
                 echo 'Cloning on branch: ' + params.GIT_BUILD_BRANCH
                 git(url: params.GIT_REPO_URL, branch: params.GIT_BUILD_BRANCH, credentialsId: 'github_pat')
-            }
-        }
-        stage('Pause for debug') {
-            steps {
-                input("pause")
             }
         }
         stage('Build project') {
@@ -62,6 +64,7 @@ pipeline {
                 }
             }
         }
+        
     }
 
     post {

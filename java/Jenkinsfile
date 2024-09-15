@@ -30,6 +30,11 @@ pipeline {
                 sh './mvnw clean install -DskipTests=true'
             }
         }
+        stage('Pause') {
+            steps {
+                input('message')
+            }
+        }
         stage('Push artifact to api instance') {
             steps {
                 withCredentials([file(credentialsId: 'API_PEM', variable: 'PEM_FILE')]) {    
@@ -38,12 +43,6 @@ pipeline {
                 }
             }
         }
-        stage('Pause') {
-            steps {
-                input('message')
-            }
-        }
-        
     }
 
     post {

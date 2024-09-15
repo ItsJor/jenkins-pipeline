@@ -20,9 +20,11 @@ pipeline {
 
     stages {
         stage('Testing shared library') {
-            def script = libraryResource 'java/update_and_run.sh'
-            writeFile(file: 'deploy_test.sh', text: script)
-            sh 'cat deploy_test.sh'
+            steps {
+                def script = libraryResource 'java/update_and_run.sh'
+                writeFile(file: 'deploy_test.sh', text: script)
+                sh 'cat deploy_test.sh'
+            }
         }
         stage('Pause for debug') {
             steps {

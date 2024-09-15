@@ -62,6 +62,7 @@ pipeline {
             steps {
                 withCredentials([file(credentialsId: 'API_PEM', variable: 'PEM_FILE')]) {
                     sh 'cd /'
+                    sh 'ls -l'
                     sh 'ssh -v -o StrictHostKeyChecking=no -i ${PEM_FILE} ec2-user@ec2-3-229-129-121.compute-1.amazonaws.com "cd /home/ec2-user && sudo yum update -y"'
                 }
             }

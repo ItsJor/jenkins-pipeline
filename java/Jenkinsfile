@@ -10,6 +10,9 @@ pipeline {
 
     environment {
         SPRING_PROFILE_ACTIVE = "$params.BUILD_ENVIRONMENT"
+        DB_USERNAME = credentials('DB_USERNAME')
+        DB_PASSWORD = credentials('DB_PASSWORD')
+        DB_DATASOURCE = credentials('DB_DATASOURCE')
     }
 
     stages {

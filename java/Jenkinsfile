@@ -5,6 +5,11 @@ pipeline {
     parameters {
         string(name: 'GIT_REPO_URL', defaultValue: 'https://github.com/ItsJor/sw_r_assist.git', description: 'Repository link for build - java')
         string(name: 'GIT_BUILD_BRANCH', defaultValue: 'main', description: 'Branch for the build')
+        choice(name: 'BUILD_ENVIRONMENT', choices: ['dev', 'uat', 'prod'], description: 'Environment to build out')
+    }
+
+    environment {
+        SPRING_BOOT_ACTIVE = params.BUILD_ENVIRONMENT
     }
 
     stages {

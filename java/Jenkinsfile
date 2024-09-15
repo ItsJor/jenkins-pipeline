@@ -13,6 +13,7 @@ pipeline {
         DB_USERNAME = credentials('DB_USERNAME')
         DB_PASSWORD = credentials('DB_PASSWORD')
         DB_DATASOURCE = credentials('DB_DATASOURCE')
+        API_INSTANCE_LOCATION = credentials('API_INSTANCE_LOCATION')
     }
 
     stages {
@@ -29,9 +30,9 @@ pipeline {
                 sh './mvnw clean install -DskipTests=true'
             }
         }
-        stage('Pause to see workspace') {
+        stage('Push artifact to api instance') {
             steps {
-                input(message: 'Pause')
+                sh 'scp -i /target/sampleApi-0.0.1-SNAPSHOT.jar ec2-user@${API_INSTANCE_LOCATION}'
             }
         }
         

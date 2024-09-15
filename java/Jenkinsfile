@@ -22,16 +22,16 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Pause for debug') {
-            steps {
-                input("pause")
-            }
-        }
         stage('Clone repository') {
             steps {
                 echo 'Cloning repository from: ' + params.GIT_REPO_URL
                 echo 'Cloning on branch: ' + params.GIT_BUILD_BRANCH
                 git(url: params.GIT_REPO_URL, branch: params.GIT_BUILD_BRANCH, credentialsId: 'github_pat')
+            }
+        }
+        stage('Pause for debug') {
+            steps {
+                input("pause")
             }
         }
         stage('Build project') {

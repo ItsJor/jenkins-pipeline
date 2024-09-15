@@ -32,7 +32,9 @@ pipeline {
         }
         stage('Push artifact to api instance') {
             steps {
-                sh 'scp /target/sampleApi-0.0.1-SNAPSHOT.jar ec2-user@${API_INSTANCE_LOCATION}'
+                withCredentials([sshUserPrivateKey(credentialsId: 'API_INSTANCE_KEY', keyFileVariable: 'SSH_KEY')]) {
+                    sh 'scp -i $SSH_KEY /target/sampleApi-0.0.1-SNAPSHOT.jar ec2-user@${API_INSTANCE_LOCATION}'
+                }
             }
         }
         

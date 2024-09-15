@@ -27,11 +27,6 @@ pipeline {
                 }
             }
         }
-        stage('Pause for debug') {
-            steps {
-                input("pause")
-            }
-        }
         stage('Clone repository') {
             steps {
                 echo 'Cloning repository from: ' + params.GIT_REPO_URL
@@ -56,6 +51,11 @@ pipeline {
                 withCredentials([file(credentialsId: 'API_PEM', variable: 'PEM_FILE')]) {                 
                     sh 'scp -o StrictHostKeyChecking=no -i ${PEM_FILE} ${WORKSPACE}/deploy_test.sh ec2-user@${API_INSTANCE_LOCATION}'
                 }
+            }
+        }
+        stage('Pause for debug') {
+            steps {
+                input("pause")
             }
         }
         stage('Update and run on instance') {

@@ -32,8 +32,8 @@ pipeline {
         }
         stage('Push artifact to api instance') {
             steps {
-                withCredentials([file(credentialsId: 'API_PEM', variable: 'PEM_FILE')]) {
-                    sh 'scp -i ${PEM_FILE} /target/sampleApi-0.0.1-SNAPSHOT.jar ec2-user@${API_INSTANCE_LOCATION}'
+                withCredentials([file(credentialsId: 'API_PEM', variable: 'PEM_FILE')]) {                    
+                    sh 'scp -v -i ${PEM_FILE} /target/sampleApi-0.0.1-SNAPSHOT.jar ec2-user@${API_INSTANCE_LOCATION}'
                 }
             }
         }

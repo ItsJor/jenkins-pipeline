@@ -63,7 +63,7 @@ pipeline {
                     sh '''
                         ssh-keyscan -H ec2-44-213-213-142.compute-1.amazonaws.com >> ~/.ssh/known_hosts
                     '''
-                    sh 'ssh -i "$PEM_FILE" ec2-user@ec2-44-213-213-142.compute-1.amazonaws.com "cd /home/ec2-user && bash update_and_run.sh"'
+                    sh 'ssh -i "$PEM_FILE" ec2-user@ec2-44-213-213-142.compute-1.amazonaws.com "cd /home/ec2-user && bash deploy_test.sh"'
                 }
             }
         }

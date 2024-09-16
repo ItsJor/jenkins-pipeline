@@ -61,6 +61,9 @@ pipeline {
             steps {
                 withCredentials([file(credentialsId: 'API_PEM', variable: 'PEM_FILE')]) {
                     sh 'ls -l $PEM_FILE'
+                    sh '''
+                        ssh-keyscan -H ec2-44-213-213-142.compute-1.amazonaws.com >> ~/.ssh/known_hosts
+                    '''
                     sh 'ssh -i "$PEM_FILE" ec2-user@ec2-44-213-213-142.compute-1.amazonaws.com "cd /home/ec2-user && sudo yum update -y"'
                 }
             }

@@ -60,8 +60,8 @@ pipeline {
         stage('Update and run on instance') {
             steps {
                 withCredentials([file(credentialsId: 'API_PEM', variable: 'PEM_FILE')]) {
-                    sh 'ls -l'
-                    sh 'ssh -i "home/ec2-user/${PEM_FILE}" ec2-user@ec2-44-213-213-142.compute-1.amazonaws.com "cd /home/ec2-user && sudo yum update -y"'
+                    sh 'ls -l $PEM_FILE'
+                    sh 'ssh -i "$PEM_FILE" ec2-user@ec2-44-213-213-142.compute-1.amazonaws.com "cd /home/ec2-user && sudo yum update -y"'
                 }
             }
         }

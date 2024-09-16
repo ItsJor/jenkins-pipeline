@@ -16,20 +16,15 @@ pipeline {
         DB_PASSWORD = credentials('DB_PASSWORD')
         DB_DATASOURCE = credentials('DB_DATASOURCE')
         API_INSTANCE_LOCATION = credentials('API_INSTANCE_LOCATION')
+        API_INSTANCE_CONNECT = credentials('API_INSTANCE_CONNECT')
     }
 
     stages {
-        stage('Testing shared library') {
+        stage('Shared library resource') {
             steps {
                 script {
                     writeFile(file: 'deploy_test.sh', text: libraryResource('update_and_run.sh'))
-                    sh 'cat deploy_test.sh'
                 }
-            }
-        }
-        stage('Pause for debug') {
-            steps {
-                input("pause")
             }
         }
         stage('Clone repository') {
@@ -61,10 +56,10 @@ pipeline {
         stage('Update and run on instance') {
             steps {
                 withCredentials([file(credentialsId: 'API_PEM', variable: 'PEM_FILE')]) {
-                    sh 'ls -l'
-                    sh 'chmod 400 ${PEM_FILE}'
-                    // sh 'ssh -v -o StrictHostKeyChecking=no -i ${PEM_FILE} ec2-user@ec2-3-229-129-121.compute-1.amazonaws.com "cd /home/ec2-user && bash update_and_run.sh"'
-                    sh 'ssh -v -o StrictHostKeyChecking=no -i ${PEM_FILE} ec2-user@ec2-3-229-129-121.compute-1.amazonaws.com "cd /home/ec2-user && sudo yum update -y"'
+                    sh '''
+                        ssh-keyscan -H "$API_INSTANCE_CONNECT" >> ~/.ssh/known_hosts
+                    '''
+                    sh 'ssh -i "$PEM_FILE" "ec2-user@$API_INSTANCE_CONNECT" "cd /home/ec2-user && bash deploy_test.sh"'
                 }
             }
         }

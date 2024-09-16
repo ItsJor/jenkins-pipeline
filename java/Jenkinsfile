@@ -53,15 +53,26 @@ pipeline {
                 }
             }
         }
-        stage('Update and run on instance') {
+        stage('Ssh-keyscan') {
             steps {
                 withCredentials([file(credentialsId: 'API_PEM', variable: 'PEM_FILE')]) {
                     sh '''
                         ssh-keyscan -H "$API_INSTANCE_CONNECT" >> ~/.ssh/known_hosts
                     '''
+                }
+            }
+        }
+        stage('Update and run on instance') {
+            steps {
+                withCredentials([file(credentialsId: 'API_PEM', variable: 'PEM_FILE')]) {
                     sh '''
-                        ssh -i "$PEM_FILE" ec2-user@$API_INSTANCE_CONNECT \
-                        "cd /home/ec2-user && SPRING_PROFILE_ACTIVE=${SPRING_PROFILE_ACTIVE} bash deploy_test.sh"
+                        ssh -i "$PEM_FILE" ec2-user@$API_INSTANCE_CONNECT << EOF
+                            export DB_USERNAME="${DB_USERNAME}"
+                            export DB_PASSWORD="${DB_PASSWORD}"
+                            export DB_DATASOURCE="${DB_DATASOURCE}"
+                            cd /home/ec2-user
+                            SPRING_PROFILE_ACTIVE=${SPRING_PROFILE_ACTIVE} bash deploy_test.sh
+                        EOF
                     '''
                 }
             }

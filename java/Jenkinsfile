@@ -36,7 +36,7 @@ pipeline {
         }
         stage('Build project') {
             steps {
-                sh './mvnw clean install -DskipTests=true'
+                sh './mvnw clean install -DskipTests=true -Dspring.profiles.active=${SPRING_PROFILE_ACTIVE}'
             }
         }
         stage('Push artifact to api instance') {

@@ -16,6 +16,7 @@ pipeline {
         DB_PASSWORD = credentials('DB_PASSWORD')
         DB_DATASOURCE = credentials('DB_DATASOURCE')
         API_INSTANCE_LOCATION = credentials('API_INSTANCE_LOCATION')
+        API_INSTANCE_CONNECT = credentials('API_INSTANCE_CONNECT')
     }
 
     stages {
@@ -52,18 +53,13 @@ pipeline {
                 }
             }
         }
-        stage('Pause for debug') {
-            steps {
-                input("pause")
-            }
-        }
         stage('Update and run on instance') {
             steps {
                 withCredentials([file(credentialsId: 'API_PEM', variable: 'PEM_FILE')]) {
                     sh '''
-                        ssh-keyscan -H ec2-44-213-213-142.compute-1.amazonaws.com >> ~/.ssh/known_hosts
+                        ssh-keyscan -H "$API_INSTANCE_CONNECT" >> ~/.ssh/known_hosts
                     '''
-                    sh 'ssh -i "$PEM_FILE" ec2-user@ec2-44-213-213-142.compute-1.amazonaws.com "cd /home/ec2-user && bash deploy_test.sh"'
+                    sh 'ssh -i "$PEM_FILE" "ec2-user@$API_INSTANCE_CONNECT" "cd /home/ec2-user && bash deploy_test.sh"'
                 }
             }
         }

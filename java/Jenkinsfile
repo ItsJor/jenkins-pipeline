@@ -61,7 +61,7 @@ pipeline {
             steps {
                 withCredentials([file(credentialsId: 'API_PEM', variable: 'PEM_FILE')]) {
                     sh 'ls -l'
-                    sh 'ssh -i ${PEM_FILE} ec2-user@ec2-44-213-213-142.compute-1.amazonaws.com "cd /home/ec2-user && sudo yum update -y"'
+                    sh 'ssh -i "home/ec2-user/${PEM_FILE}" ec2-user@ec2-44-213-213-142.compute-1.amazonaws.com "cd /home/ec2-user && sudo yum update -y"'
                 }
             }
         }

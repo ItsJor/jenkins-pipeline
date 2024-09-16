@@ -59,7 +59,10 @@ pipeline {
                     sh '''
                         ssh-keyscan -H "$API_INSTANCE_CONNECT" >> ~/.ssh/known_hosts
                     '''
-                    sh 'ssh -i "$PEM_FILE" "ec2-user@$API_INSTANCE_CONNECT" "cd /home/ec2-user && bash deploy_test.sh"'
+                    sh '''
+                        ssh -i "$PEM_FILE" ec2-user@$API_INSTANCE_CONNECT \
+                        "cd /home/ec2-user && SPRING_PROFILE_ACTIVE=${SPRING_PROFILE_ACTIVE} bash deploy_test.sh"
+                    '''
                 }
             }
         }

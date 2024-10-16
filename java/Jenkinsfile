@@ -70,8 +70,9 @@ pipeline {
                             export DB_USERNAME="${DB_USERNAME}"
                             export DB_PASSWORD="${DB_PASSWORD}"
                             export DB_DATASOURCE="${DB_DATASOURCE}"
+                            export SPRING_PROFILE_ACTIVE="${SPRING_PROFILE_ACTIVE}"
                             cd /home/ec2-user
-                            SPRING_PROFILE_ACTIVE=${SPRING_PROFILE_ACTIVE} bash deploy_test.sh
+                            bash deploy_test.sh
                         EOF
                     '''
                 }

@@ -1,5 +1,7 @@
 @Library('JENKINS_SHARED_LIBRARY@main') _
 
+// todo: remove file
+
 pipeline {
 
     agent any
